@@ -14,7 +14,6 @@ Bu, uygulamanın ana root sayfası.
 Home klasöründe ki index.jsx dosyasını çağırıyor.
 Yani aslında ana sayfa içeriği pages/home/index.jsx içinde tanımlı
 
-
 🧠 Zihin Haritası
 Yer	                Açıklama
 _document.js	      HTML iskeleti (SSR'de çalışır). <html>, <head>, <body> tanımlanır.

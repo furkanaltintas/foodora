@@ -26,4 +26,4 @@ export default Index
 Bu dosya, ana sayfa içeriğini oluşturuyor. Slider, kampanyalar, menü, hakkımızda
 gibi bileşenleri gösteriyor.
 Burası sayfanın UI kısmını oluşturuyor ama <title> gibi <head> içeriği burada tanımlanmamış.
- */
+*/
