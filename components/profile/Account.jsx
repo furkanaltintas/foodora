@@ -2,22 +2,29 @@ import Title from "../ui/Title"
 import { useFormik } from "formik"
 import { profileSchema } from "@/schema/profile"
 import Input from "../form/Input"
+import axios from "axios"
+import { toast } from "react-toastify"
 
-const Account = () => {
-
+const Account = ({ user }) => {
     const onSubmit = async (values, actions) => {
-        await new Promise((resolve) => setTimeout(resolve, 4000))
-        actions.resetForm();
+        try {
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/users/${user._id}`, values)
+            toast.success("Profile updated successfully")
+        } catch (err) {
+            console.log(err);
+            toast.error("Something went wrong")
+        }
     }
 
     const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
+        enableReinitialize: true,
         initialValues: {
-            fullName: "",
-            phoneNumber: "",
-            email: "",
-            address: "",
-            job: "",
-            bio: "",
+            fullName: user?.fullName,
+            phoneNumber: user?.phoneNumber,
+            email: user?.email,
+            address: user?.address,
+            job: user?.job,
+            bio: user?.bio,
         },
         onSubmit,
         validationSchema: profileSchema

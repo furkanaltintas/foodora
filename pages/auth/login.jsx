@@ -1,38 +1,50 @@
 import { useFormik } from "formik"
 import { loginSchema } from "@/schema/login"
-import { useSession, signIn } from "next-auth/react"
+import { signIn, getSession, useSession } from "next-auth/react"
 import Input from "@/components/form/Input"
 import Title from "@/components/ui/Title"
 import Link from "next/link"
-import { useEffect } from "react"
 import { useRouter } from "next/router"
 import { toast } from "react-toastify"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 const Login = () => {
-  const { data: session } = useSession()
   const router = useRouter()
+  const { data: session } = useSession()
+  const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {
-    if (session) {
-      router.push("/profile")
+    const getUser = async () => {
+      try {
+        if (!session) return
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`)
+        setCurrentUser(res.data?.find((user) => user.email === session?.user?.email))
+
+        console.log("currentUser", currentUser)
+
+        router.push("/profile/" + currentUser?._id)
+      } catch (err) {
+        console.log(err)
+      }
     }
-  }, [session])
+    getUser()
+  }, [session, router, currentUser])
 
   const onSubmit = async (values, actions) => {
     const { email, password } = values;
     let options = { redirect: false, email, password };
-    const res = await signIn("credentials", options);
 
-    if (res.error) {
-      console.log(res.error);
-    } else {
+    try {
+      const res = await signIn("credentials", options);
       toast.success("Login Successfull")
-      router.push("/profile");
       actions.resetForm();
+      // router.push("/profile/" + currentUser?._id)
+    } catch (err) {
+      console.log(res.error);
     }
   };
 
-  console.log(session)
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = useFormik({
     initialValues: {
       email: "",
@@ -92,6 +104,26 @@ const Login = () => {
       </div>
     </div>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`)
+  const user = res.data?.find((user) => user.email === session?.user?.email)
+  console.log(user)
+  if (session && user) {
+    return {
+      redirect: {
+        destination: "/profile/" + user._id,
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
 }
 
 export default Login

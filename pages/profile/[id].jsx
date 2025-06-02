@@ -1,31 +1,31 @@
 import Account from "@/components/profile/Account"
 import Order from "@/components/profile/Order"
 import Password from "@/components/profile/Password"
+import axios from "axios"
 import { signOut, useSession } from "next-auth/react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
-const Index = () => {
+const Index = ({ user }) => {
+    const { data: session } = useSession()
     const [tabs, setTabs] = useState(0)
     const [isReady, setIsReady] = useState(false)
     const { push } = useRouter()
-    const { data: session } = useSession()
 
     const handleSignOut = async () => {
         if (confirm("Are you sure you want to sign out?")) {
             toast.success("You have successfully logged out.")
             await signOut({ redirect: false })
             await new Promise((resolve) => setTimeout(resolve, 500))
+            localStorage.removeItem("tabs")
             push("/auth/login")
         }
     }
 
     useEffect(() => {
-        if (session) {
-            push("/profile")
-        } else {
+        if (!session) {
             push("/auth/login")
         }
     }, [session, push])
@@ -51,11 +51,11 @@ const Index = () => {
     const renderTabContent = () => {
         switch (tabs) {
             case 0:
-                return <Account />
+                return <Account user={user} />
             case 1:
-                return <Password />
+                return <Password user={user} />
             case 2:
-                return <Order />
+                return <Order user={user} />
             default:
                 return null
         }
@@ -66,14 +66,14 @@ const Index = () => {
             <aside className="lg:w-80 w-full flex-shrink-0">
                 <div className="md:border relative flex flex-col items-center px-10 py-5">
                     <Image
-                        src="/images/profile.jpg"
+                        src={user.image ? user.image : "/images/admin.png"}
                         alt="Profile"
                         width={100}
                         height={100}
                         objectFit="cover"
                         className="rounded-full hover:scale-105 transition-all cursor-pointer"
                     />
-                    <b className="text-2xl mt-1 cursor-pointer">Furkan Altıntaş</b>
+                    <b className="text-2xl mt-1 cursor-pointer">{user.fullName}</b>
                 </div>
                 <ul>
                     <li className={activeTabs(0)} onClick={() => setTabs(0)}>
@@ -101,6 +101,17 @@ const Index = () => {
             </main>
         </div>
     )
+}
+
+export async function getServerSideProps({ req, params }) {
+    console.log("params", params)
+    const user = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users/${params.id}`)
+
+    return {
+        props: {
+            user: user ? user.data : null,
+        },
+    }
 }
 
 export default Index
