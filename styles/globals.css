@@ -15,7 +15,7 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply text-white px-[30px] py-[8px] rounded-3xl bg-primary cursor-pointer hover:opacity-70 transition-all;
+    @apply text-white px-[30px] py-[8px] rounded-3xl bg-primary cursor-pointer hover:opacity-70 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
   }
 }
 
@@ -25,9 +25,22 @@ body {
 
 
 .slick-dots .slick-active div {
-  @apply bg-primary;
+  @apply bg-primary scale-150;
 }
 
 .slick-dots div {
   @apply !m-0 !mt-7;
+}
+
+
+/* NProgress bar rengi */
+#nprogress .bar {
+  background: rgb(255 190 51);
+  /* Burayı istediğin renkle değiştir (#ff0000, red, rgb(...) vs.) */
+}
+
+/* İsteğe bağlı: spinner rengini de ayarlayabilirsin */
+#nprogress .spinner-icon {
+  border-top-color: rgb(255 190 51);
+  border-left-color: rgb(255 190 51);
 }

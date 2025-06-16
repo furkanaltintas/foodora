@@ -1,36 +1,51 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "nprogress/nprogress.css";
 import "@/styles/globals.css";
+
 import { Provider } from "react-redux";
 import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
+
 import Layout from "@/layout/Layout";
 import store from "@/redux/store";
-import Head from "next/head";
+import Router from "next/router";
+import NProgress from "nprogress";
+
+
+// Optional: Customize NProgress Settings
+NProgress.configure({
+  minimum: 0.3,
+  easing: "ease",
+  speed: 800,
+  showSpinner: false,
+});
+
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
-        <Head>
-          <title>Foodora</title>
-          <meta name="description" content="Foodora fast food delivery" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-        </Head>
         <Layout>
-          <Component {...pageProps} />
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          ></ToastContainer>
+          <div className="pt-[88px]">
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+            ></ToastContainer>
+            <Component {...pageProps} />
+          </div>
         </Layout>
       </Provider>
     </SessionProvider>

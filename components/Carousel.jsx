@@ -27,7 +27,7 @@ const Carousel = () => {
         <div className="h-screen w-full -mt-[88px] relative">
             <div className="absolute top-0 left-0 w-full h-full">
                 <div className="relative h-full w-full">
-                    <Image src="/images/slider.jpg" alt="slider" layout="fill" objectFit="cover" />
+                    <Image src="/images/slider.jpg" alt="slider" fill priority objectFit="cover" />
                 </div>
             </div>
             <Slider {...settings}>
@@ -44,7 +44,7 @@ const Carousel = () => {
                 </div>
                 <div>
                     <div className="container mx-auto mt-48 text-white flex flex-col items-start gap-y-10">
-                        <Title className="text-6xl">Fast Food Restaurant</Title>
+                        <Title className="text-5xl">Fast Food Restaurant</Title>
                         <p className="text-sm sm:w-2/5 w-full">
                             Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia
                             laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat
@@ -55,7 +55,7 @@ const Carousel = () => {
                 </div>
                 <div>
                     <div className="container mx-auto mt-48 text-white flex flex-col items-start gap-y-10">
-                        <Title className="text-6xl">Fast Food Restaurant</Title>
+                        <Title className="text-5xl">Fast Food Restaurant</Title>
                         <p className="text-sm sm:w-2/5 w-full">
                             Doloremque, itaque aperiam facilis rerum, commodi, temporibus sapiente ad mollitia
                             laborum quam quisquam esse error unde. Tempora ex doloremque, labore, sunt repellat

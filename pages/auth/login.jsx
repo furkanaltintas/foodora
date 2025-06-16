@@ -21,9 +21,7 @@ const Login = () => {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/users`)
         setCurrentUser(res.data?.find((user) => user.email === session?.user?.email))
 
-        console.log("currentUser", currentUser)
-
-        router.push("/profile/" + currentUser?._id)
+        session && router.push("/profile/" + currentUser?._id)
       } catch (err) {
         console.log(err)
       }
@@ -37,6 +35,7 @@ const Login = () => {
 
     try {
       const res = await signIn("credentials", options);
+      if(res.error) return toast.error(res.error)
       toast.success("Login Successfull")
       actions.resetForm();
       // router.push("/profile/" + currentUser?._id)

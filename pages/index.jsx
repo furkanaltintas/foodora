@@ -1,13 +1,31 @@
+import axios from "axios";
 import Home from "./home";
+import Head from "next/head";
 
-export default function Index() {
+export default function Index({ categoryList, productList }) {
   return (
     <>
-      <Home />
+      <Head>
+        <title>Foodora</title>
+        <meta name="description" content="Foodora fast food delivery" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <Home categoryList={categoryList} productList={productList} />
     </>
   );
 }
 
+export const getServerSideProps = async (context) => {
+  const category = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/categories`);
+  const product = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+
+  return {
+    props: {
+      categoryList: category.data ? category.data : [],
+      productList: product.data ? product.data : [],
+    },
+  };
+};
 
 /*
 Bu, uygulamanın ana root sayfası.

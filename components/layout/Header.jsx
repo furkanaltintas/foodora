@@ -15,33 +15,41 @@ const Header = () => {
     const router = useRouter();
 
     // Aktif olan sayfayı kontrol etmek için fonksiyon
-    const isActive = (path) => router.asPath === path ? 'text-primary' : '';
+    const isActive = (path) => router.asPath === path && 'text-primary';
 
     return (
-        <div className={`h-[5.5rem] z-50 relative ${router.asPath === '/' ? 'bg-transparent' : 'bg-red-800'}`}>
-            <div className="container flex justify-between mx-auto text-white items-center h-full">
+        <div className={`h-[5.5rem] z-50 absolute w-full ${router.asPath === '/' ? 'bg-transparent' : 'bg-red-800 !fixed'}`}>
+            <div className="container mx-auto text-white flex justify-between items-center h-full">
                 <Logo />
-                <nav className={`sm:static absolute top-0 left-0 grid place-content-center sm:w-auto sm:h-auto w-full h-full sm:text-white text-black sm:bg-transparent bg-white sm:flex ${!isMenuModal && 'hidden'}`}>
+                <nav className={`sm:static absolute top-0 left-0 sm:w-auto sm:h-auto w-full h-screen sm:text-white text-black sm:bg-transparent bg-white sm:flex hidden z-50 ${isMenuModal === true && '!grid place-content-center'}`}>
                     <ul className="flex uppercase gap-x-2 sm:flex-row flex-col items-center">
-                        <li className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/')}`}>
+                        <li
+                            className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/')}`}
+                            onClick={() => setIsMenuModal(false)}>
                             <Link href="/">Home</Link>
                         </li>
-                        <li className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/menu')}`}>
+                        <li
+                            className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/menu')}`}
+                            onClick={() => setIsMenuModal(false)}>
                             <Link href="/menu">Menu</Link>
                         </li>
-                        <li className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/about')}`}>
+                        <li
+                            className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/about')}`}
+                            onClick={() => setIsMenuModal(false)}>
                             <Link href="/about">About</Link>
                         </li>
-                        <li className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/reservation')}`}>
+                        <li
+                            className={`px-[5px] py-[20px] hover:text-primary transition-all cursor-pointer ${isActive('/reservation')}`}
+                            onClick={() => setIsMenuModal(false)}>
                             <Link href="/reservation">Book Table</Link>
                         </li>
                     </ul>
                 </nav>
                 <div className="flex gap-x-4 items-center">
-                    <Link href="/profile">
+                    <Link href="/profile" className={(router.asPath.includes("profile") || router.asPath.includes("auth")) && "text-primary"}>
                         <FaUserAlt className="hover:text-primary transition-all cursor-pointer" />
                     </Link>
-                    <Link href="/cart">
+                    <Link href="/cart" className={isActive("/cart")}>
                         <span className="relative">
                             <FaShoppingCart className="hover:text-primary transition-all cursor-pointer" />
                             {cart.products.length > 0 && (
@@ -61,7 +69,7 @@ const Header = () => {
                         <GiHamburgerMenu className="text-xl hover:text-primary transition-all" />
                     </button>
                     {isMenuModal && (
-                        <button className="absolute top-4 right-4" onClick={() => setIsMenuModal(false)}>
+                        <button className="absolute top-4 right-4 z-50" onClick={() => setIsMenuModal(false)}>
                             <GiCancel size={25} className="text-black hover:text-primary transition-all" />
                         </button>
                     )}

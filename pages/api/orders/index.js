@@ -1,5 +1,5 @@
+import Order from "@/models/Order";
 import dbConnect from "@/util/dbConnect";
-import User from "@/models/User";
 
 const handler = async (req, res) => {
   await dbConnect();
@@ -7,8 +7,8 @@ const handler = async (req, res) => {
 
   if (method === "GET") {
     try {
-      const users = await User.find();
-      res.status(200).json(users);
+      const orders = await Order.find();
+      res.status(200).json(orders);
     } catch (err) {
       console.error("GET error: ", err);
     }
@@ -16,8 +16,8 @@ const handler = async (req, res) => {
 
   if (method === "POST") {
     try {
-      const newUser = await User.create(req.body);
-      res.status(201).json(newUser);
+      const newOrder = await Order.create(req.body);
+      res.status(201).json(newOrder);
     } catch (err) {
       console.error("POST error: ", err);
     }

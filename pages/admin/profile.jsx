@@ -1,3 +1,4 @@
+import AddProduct from "@/components/admin/AddProduct"
 import Categories from "@/components/admin/Categories"
 import Footer from "@/components/admin/Footer"
 import Order from "@/components/admin/Order"
@@ -12,7 +13,9 @@ const Profile = () => {
     const { push } = useRouter()
     const [tabs, setTabs] = useState(0)
     const [isReady, setIsReady] = useState(false) // yüklenme kontrolü
+    const [isProductModal, setIsProductModal] = useState(false)
 
+    const [products, setProducts] = useState([])
 
     const closeAdminAccount = async () => {
         try {
@@ -46,7 +49,7 @@ const Profile = () => {
     }, [tabs, isReady])
 
     const activeTabs = (newTabs) => {
-        const activeClassName = `border w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${newTabs === tabs ? "bg-primary text-white" : ""} `;
+        const activeClassName = `border border-t-0 w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${newTabs === tabs ? "bg-primary text-white" : ""} `;
         return activeClassName;
     }
 
@@ -98,9 +101,17 @@ const Profile = () => {
                                 <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-primary"></div>
                             </div>
                         ) : (
-                            tabs === 0 ? <Products /> : tabs === 1 ? <Order /> : tabs === 2 ? <Categories /> : tabs === 3 ? <Footer /> : null
+                            tabs === 0 ? <Products products={products} setProducts={setProducts} /> : tabs === 1 ? <Order /> : tabs === 2 ? <Categories /> : tabs === 3 ? <Footer /> : null
                         )
                     }
+                    {
+                        isProductModal && (
+                            <AddProduct setIsProductModal={setIsProductModal} setProducts={setProducts} />
+                        )
+                    }
+                    <button className="btn-primary w-12 h-12 !p-0 absolute bottom-14 right-10 text-4xl" onClick={() => setIsProductModal(true)}>
+                        +
+                    </button>
                 </div>
             </div>
         </div>

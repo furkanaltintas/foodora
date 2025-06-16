@@ -45,8 +45,7 @@ const Index = ({ user }) => {
     }, [tabs, isReady])
 
     const activeTabs = (index) =>
-        `border w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${index === tabs ? "bg-primary text-white" : ""
-        }`
+        `border border-t-0 w-full p-3 cursor-pointer hover:bg-primary hover:text-white transition-all ${index === tabs && "bg-primary text-white" }`
 
     const renderTabContent = () => {
         switch (tabs) {
@@ -60,6 +59,8 @@ const Index = ({ user }) => {
                 return null
         }
     }
+
+    if (!session) return null
 
     return (
         <div className="flex p-10 lg:flex-row flex-col">

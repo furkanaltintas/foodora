@@ -1,5 +1,5 @@
+import Footer from "@/models/Footer";
 import dbConnect from "@/util/dbConnect";
-import User from "@/models/User";
 
 const handler = async (req, res) => {
   await dbConnect();
@@ -7,8 +7,8 @@ const handler = async (req, res) => {
 
   if (method === "GET") {
     try {
-      const users = await User.find();
-      res.status(200).json(users);
+      const footers = await Footer.findOne(); // Bir tane footer olduğu için find değil findOne yöntemi kullanıyoruz.
+      res.status(200).json(footers);
     } catch (err) {
       console.error("GET error: ", err);
     }
@@ -16,8 +16,8 @@ const handler = async (req, res) => {
 
   if (method === "POST") {
     try {
-      const newUser = await User.create(req.body);
-      res.status(201).json(newUser);
+      const newFooter = await Footer.create(req.body);
+      res.status(201).json(newFooter);
     } catch (err) {
       console.error("POST error: ", err);
     }

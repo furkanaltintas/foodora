@@ -72,7 +72,7 @@ const Reservation = () => {
 
     return (
         <div className="container mx-auto py-12">
-            <Title className="text-[40px] mb-10">Book A Table</Title>
+            <Title className="text-[40px] sm:text-start text-center mb-10">Book A Table</Title>
             <div className="sm:flex flex-wrap justify-between gap-10">
                 <form className="flex-1 h-[400px]" onSubmit={handleSubmit} onBlur={handleBlur}>
                     <div className="flex flex-col gap-y-3">
@@ -82,7 +82,7 @@ const Reservation = () => {
                             ))
                         }
                     </div>
-                    <button type="submit" className="btn-primary mt-4">BOOK NOW</button>
+                    <button type="submit" className="btn-primary sm:w-auto w-full mt-4">BOOK NOW</button>
                 </form>
                 <div className="flex h-[400px] mt-10 sm:mt-0">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387196.0768088125!2d-74.30915884677587!3d40.69667266973555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20Amerika%20Birle%C5%9Fik%20Devletleri!5e0!3m2!1str!2str!4v1748267564125!5m2!1str!2str"
@@ -90,7 +90,7 @@ const Reservation = () => {
                         height="400"
                         allowFullScreen=""
                         loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
+                        referrerPolicy="no-referrer-when-downgrade"
                         className="border border-primary"
                     ></iframe>
                 </div>

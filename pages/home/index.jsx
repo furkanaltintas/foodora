@@ -6,12 +6,12 @@ import MenuWrapper from '@/components/product/MenuWrapper'
 import Reservation from '@/components/Reservation'
 import React from 'react'
 
-const Index = () => {
+const Index = ({ categoryList, productList }) => {
   return (
     <>
       <Carousel />
       <Campaigns />
-      <MenuWrapper />
+      <MenuWrapper categoryList={categoryList} productList={productList} />
       <About />
       <Reservation />
       <Customers />
